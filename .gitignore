@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+.env
+
+# Large audio files and temporary files
+*.mp3
+*.wav
+*.m4a
+*.ogg
+*.flac
+temp_*
+
+# Model cache
+.cache/
