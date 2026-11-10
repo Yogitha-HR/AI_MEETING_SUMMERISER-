@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Meeting Summarizer - Complete Project Handbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f4c81;
+      --primary-dark: #0a3357;
+      --secondary: #2563eb;
+      --accent: #d97706;
+      --bg-light: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --code-bg: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg-light);
+      color: var(--text-main);
+      padding: 30px 15px;
+      line-height: 1.6;
+    }
+
+    /* TOP ACTION BAR */
+    .top-action-bar {
+      max-width: 900px;
+      margin: 0 auto 25px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 14px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-print {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 11px 24px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(15, 76, 129, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-print:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    /* DOCUMENT CONTAINER */
+    .doc-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 45px 55px;
+      border-radius: 12px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border-color);
+    }
+
+    /* HEADER */
+    .doc-header {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .doc-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .doc-header .doc-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .doc-meta {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .doc-meta span strong {
+      color: var(--text-main);
+    }
+
+    /* HEADINGS */
+    h2 {
+      font-size: 1.35rem;
+      color: var(--primary);
+      margin: 28px 0 14px 0;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #edf2f7;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      color: #334155;
+      margin: 18px 0 8px 0;
+    }
+
+    p, li {
+      font-size: 0.95rem;
+      color: #334155;
+      margin-bottom: 10px;
+    }
+
+    ul, ol {
+      margin-left: 22px;
+      margin-bottom: 14px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* CALLOUT BOXES */
+    .callout {
+      background: #f0f7ff;
+      border-left: 4px solid var(--secondary);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 0.92rem;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .callout-warning {
+      background: #fffbeb;
+      border-left-color: var(--accent);
+    }
+
+    .callout-warning .callout-title {
+      color: #b45309;
+    }
+
+    /* CODE BLOCKS */
+    pre {
+      background: var(--code-bg);
+      color: #e2e8f0;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.83rem;
+      overflow-x: auto;
+      margin: 14px 0;
+      border: 1px solid #1e293b;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85em;
+      background: #f1f5f9;
+      color: #0f4c81;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    /* DIAGRAMS & TABLES */
+    .diagram-box {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 16px 0;
+      line-height: 1.4;
+      border: 1px solid #1e293b;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+
+    /* PRINT SPECIFIC STYLES FOR CRISP PDF */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      .top-action-bar {
+        display: none !important;
+      }
+      .doc-container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      pre, .diagram-box {
+        white-space: pre-wrap;
+        word-break: break-all;
+        border: 1px solid #ccc;
+      }
+      h2 {
+        page-break-after: avoid;
+      }
+      .callout, table, pre {
+        page-break-inside: avoid;
+      }
+      @page {
+        size: A4;
+        margin: 15mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-action-bar">
+    <div>
+      <strong>📄 Project Engineering Handbook & Interview Cheat Sheet</strong>
+      <div style="font-size: 0.8rem; color: #64748b;">Ready to print or save as an official PDF manual</div>
+    </div>
+    <button class="btn-print" onclick="window.print()">📥 Download as PDF (Print)</button>
+  </div>
+
+  <!-- DOCUMENT ROOT -->
+  <div class="doc-container">
+
+    <!-- HEADER -->
+    <div class="doc-header">
+      <h1>AI Meeting Summarizer & Action-Item Extractor</h1>
+      <div class="doc-subtitle">Complete Architecture, Line-by-Line Code Walkthrough, and Interview Master Guide</div>
+      <div class="doc-meta">
+        <span><strong>Author:</strong> Yogitha H.R.</span>
+        <span><strong>Technologies:</strong> Python, Whisper ASR, Ollama, Hugging Face, Streamlit</span>
+        <span><strong>GitHub:</strong> <a href="https://github.com/Yogitha-HR/AI_MEETING_SUMMERISER-" target="_blank" style="color: #0f4c81;">github.com/Yogitha-HR/AI_MEETING_SUMMERISER-</a></span>
+      </div>
+    </div>
+
+    <!-- SECTION 1: EXECUTIVE OVERVIEW -->
+    <h2>1. Executive Overview & Problem Statement</h2>
+    <p>
+      In corporate engineering teams, sprint reviews, and client stakeholder syncs, up to <strong>30% of meeting time is lost</strong> because participants forget key decisions or fail to assign follow-up ownership. Manual note-taking is subjective, prone to human error, and distracts participants from active discussion.
+    </p>
+    <p>
+      This project delivers an <strong>enterprise-grade, automated Meeting Intelligence Pipeline</strong> built in Python that ingests meeting audio, transcribes speech, synthesizes structured executive summaries, and extracts machine-readable action items into verified JSON format.
+    </p>
+
+    <!-- SECTION 2: SYSTEM ARCHITECTURE & DATA PIPELINE -->
+    <h2>2. System Architecture & End-to-End Pipeline</h2>
+    <p>
+      The architecture follows a decoupled, three-tier sequential dataflow designed to eliminate framework bloat and guarantee data traceability:
+    </p>
+
+    <div class="diagram-box">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           RAW MEETING AUDIO RECORDING                           │
+│                     Formats: .mp3, .wav, .m4a, .ogg, .flac                      │
+└────────────────────────────────────────┬────────────────────────────────────────┘
+                                         │
+                                         ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 1: Audio Validation & Speech Recognition (step1_transcription.py)          │
+│ • Defensive Checks: Rejects 0-byte (empty), &lt;1KB (corrupted), or invalid files  │
+│ • Speech-to-Text: OpenAI Whisper ('base' model) converts acoustic audio to text │
+└────────────────────────────────────────┬────────────────────────────────────────┘
+                                         │
+                                         ▼  [Verbatim Transcript String]
+                     ┌───────────────────┴───────────────────┐
+                     │                                       │
+                     ▼                                       ▼
+┌────────────────────────────────────────┐ ┌────────────────────────────────────────┐
+│ STEP 2: Executive Summary Engine       │ │ STEP 3: Action-Item Extractor          │
+│ (step2_summary.py)                     │ │ (step3_action_items.py)                │
+│ • Temperature: 0.2 (Strictly Factual)  │ │ • Schema Enforcement: Strict JSON Mode │
+│ • Standardized 6 Business Categories:  │ │ • 5 Mandated Fields:                   │
+│   1. Meeting Purpose                   │ │   - task_description                   │
+│   2. Main Discussion Points            │ │   - responsible_person (Assignee)      │
+│   3. Important Updates                 │ │   - deadline (Due date/time)           │
+│   4. Key Decisions                     │ │   - priority (High | Medium | Low)     │
+│   5. Unresolved Questions              │ │   - transcript_excerpt (Ground Truth)  │
+│   6. Next Steps                        │ │ ➔ Machine-Readable JSON Output         │
+└────────────────────────────────────────┘ └────────────────────────────────────────┘
+                     │                                       │
+                     └───────────────────┬───────────────────┘
+                                         │
+                                         ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ ENTERPRISE CONSUMPTION LAYERS                                                   │
+│ 1. Terminal Demo Execution (run_demo.py) ➔ output_summary.md + output_tasks.json │
+│ 2. Interactive Web Dashboard (app.py)   ➔ Audio Playback, Badges, & 1-Click Save│
+└─────────────────────────────────────────────────────────────────────────────────┘
+    </div>
+
+    <!-- SECTION 3: CORE TECHNOLOGIES EXPLAINED -->
+    <h2>3. Core Technologies Deep Dive</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Technology</th>
+          <th>Role in System</th>
+          <th>Why It Was Chosen (The Technical "Why")</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OpenAI Whisper (ASR)</strong></td>
+          <td>Speech-to-Text conversion</td>
+          <td>Trained on 680,000 hours of diverse audio. Handles accents, technical jargon, and background noise significantly better than legacy speech engines, and can run completely offline.</td>
+        </tr>
+        <tr>
+          <td><strong>Ollama / LLaMA-3.2</strong></td>
+          <td>Local LLM Inference Engine</td>
+          <td>Permits 100% on-premise execution with zero recurring cloud API costs and absolute data privacy for confidential company meetings.</td>
+        </tr>
+        <tr>
+          <td><strong>Zero LangChain</strong></td>
+          <td>Direct API Orchestration</td>
+          <td>LangChain introduces excessive wrapper bloat, fragile dependencies, and debugging complexity. Direct REST/Ollama calls keep the codebase 10x lighter and deterministic.</td>
+        </tr>
+        <tr>
+          <td><strong>Structured JSON Schema</strong></td>
+          <td>Task Standardization</td>
+          <td>Enables seamless automated integration with enterprise issue-tracking tools (Jira, Asana, Monday.com) without requiring human formatting.</td>
+        </tr>
+        <tr>
+          <td><strong>Streamlit</strong></td>
+          <td>Enterprise Web UI</td>
+          <td>Allows rapid deployment of data applications in pure Python with built-in reactive state management, audio players, and responsive downloads.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="callout-title">💡 The Anti-Hallucination Design: Why "transcript_excerpt" Matters</div>
+      Large Language Models are prone to inventing tasks that were never discussed. To prevent this, Step 3 mandates a <code>transcript_excerpt</code> attribute. The LLM is strictly prohibited from creating an action item unless it can extract the <em>verbatim quote</em> from the transcript where the participant explicitly made the commitment.
+    </div>
+
+    <!-- SECTION 4: LINE-BY-LINE CODE WALKTHROUGH -->
+    <h2>4. Line-by-Line Code Walkthrough</h2>
+
+    <h3>Module 1: Audio Validation & Transcription (<code>step1_transcription.py</code>)</h3>
+    <pre><code>import os
+import whisper
+
+# 1. Supported format whitelist
+SUPPORTED_AUDIO_FORMATS = [".mp3", ".wav", ".m4a", ".ogg", ".flac"]
+
+class AudioValidationError(Exception):
+    """Custom exception raised when an uploaded audio file fails validation."""
+    pass
+
+def validate_audio_file(file_path: str) -> bool:
+    # Check 1: Does file exist on disk?
+    if not os.path.exists(file_path):
+        raise AudioValidationError(f"File not found: '{file_path}'")
+
+    # Check 2: Is the extension permitted?
+    _, ext = os.path.splitext(file_path)
+    if ext.lower() not in SUPPORTED_AUDIO_FORMATS:
+        raise AudioValidationError(f"Unsupported format '{ext}'. Allowed: {SUPPORTED_AUDIO_FORMATS}")
+
+    # Check 3: Is file empty (0 bytes) or corrupted (&lt;1024 bytes)?
+    file_size = os.path.getsize(file_path)
+    if file_size == 0:
+        raise AudioValidationError("Audio file is completely empty (0 bytes).")
+    if file_size &lt; 1024:
+        raise AudioValidationError("Audio file is corrupted or too small to contain valid speech.")
+
+    return True
+
+def transcribe_audio(file_path: str, model_size: str = "base") -> str:
+    # Step A: Validate first to prevent wasting GPU/CPU compute
+    validate_audio_file(file_path)
+
+    # Step B: Load Whisper ASR model
+    model = whisper.load_model(model_size)
+
+    # Step C: Execute acoustic decoding
+    result = model.transcribe(file_path)
+    transcript = result.get("text", "").strip()
+
+    # Step D: Confirm human speech was actually present
+    if not transcript:
+        raise AudioValidationError("No human speech was detected in this recording.")
+
+    return transcript</code></pre>
+
+    <h3>Module 2: Executive Summary Engine (<code>step2_summary.py</code>)</h3>
+    <pre><code>import ollama
+
+SUMMARY_SYSTEM_PROMPT = """You are a senior executive assistant. 
+Analyze the meeting transcript and generate a structured summary. 
+Never hallucinate or invent information not present in the transcript."""
+
+def build_summary_prompt(transcript: str) -> str:
+    # Strictly enforces the 6 mandated business sections
+    return f"""Please analyze the following meeting transcript and produce a structured summary.
+Your response MUST contain these exact 6 sections formatted with markdown headings:
+
+### 1. Meeting Purpose
+### 2. Main Discussion Points
+### 3. Important Updates
+### 4. Key Decisions
+### 5. Unresolved Questions
+### 6. Next Steps
+
+TRANSCRIPT:
+\"\"\"{transcript}\"\"\"
+"""
+
+def generate_meeting_summary(transcript: str, model: str = "llama3.2") -> str:
+    messages = [
+        {"role": "system", "content": SUMMARY_SYSTEM_PROMPT},
+        {"role": "user", "content": build_summary_prompt(transcript)}
+    ]
+    # Temperature 0.2 enforces deterministic, factual generation
+    response = ollama.chat(model=model, messages=messages, options={"temperature": 0.2})
+    return response["message"]["content"]</code></pre>
+
+    <h3>Module 3: Action-Item Extractor (<code>step3_action_items.py</code>)</h3>
+    <pre><code>import json
+import re
+import ollama
+
+# JSON Schema definition
+ACTION_ITEM_SCHEMA = {
+    "action_items": [
+        {
+            "task_description": "Clear description of what action needs to be taken",
+            "responsible_person": "Full name or role (or null if not explicitly assigned)",
+            "deadline": "Specific date, day or timeframe (or null if not mentioned)",
+            "priority": "High | Medium | Low",
+            "transcript_excerpt": "Direct exact quote from the transcript proving this task"
+        }
+    ]
+}
+
+def clean_json_response(raw_text: str) -> dict:
+    """Strips markdown code fences (```json ... ```) so json.loads never fails."""
+    cleaned = raw_text.strip()
+    if "```json" in cleaned:
+        cleaned = re.search(r"```json\s*(.*?)\s*```", cleaned, re.DOTALL).group(1)
+    elif "```" in cleaned:
+        cleaned = re.search(r"```\s*(.*?)\s*```", cleaned, re.DOTALL).group(1)
+    return json.loads(cleaned)
+
+def extract_action_items(transcript: str, model: str = "llama3.2") -> list:
+    response = ollama.chat(
+        model=model,
+        messages=[{"role": "user", "content": build_action_item_prompt(transcript)}],
+        format="json",  # Forces constrained JSON decoding
+        options={"temperature": 0.1}
+    )
+    parsed = clean_json_response(response["message"]["content"])
+    return parsed.get("action_items", [])</code></pre>
+
+    <!-- SECTION 5: HOW TO RUN -->
+    <h2>5. How to Run the Project (Step-by-Step)</h2>
+    <ol>
+      <li>
+        <strong>Clone the Repository:</strong>
+        <pre><code>git clone https://github.com/Yogitha-HR/AI_MEETING_SUMMERISER-.git
+cd AI_MEETING_SUMMERISER-</code></pre>
+      </li>
+      <li>
+        <strong>Install Python Dependencies:</strong>
+        <pre><code>python -m pip install -r requirements.txt</code></pre>
+      </li>
+      <li>
+        <strong>Run the Automated Verification Test Suite:</strong>
+        <pre><code>python test_pipeline.py</code></pre>
+        <em>Verifies error handling on 0-byte files, invalid extensions, and JSON parsing.</em>
+      </li>
+      <li>
+        <strong>Execute the Practical Terminal Demo:</strong>
+        <pre><code>python run_demo.py</code></pre>
+        <em>Executes the full pipeline and auto-saves <code>output_summary.md</code> and <code>output_action_items.json</code>.</em>
+      </li>
+      <li>
+        <strong>Launch the Interactive Web Application:</strong>
+        <pre><code>python -m streamlit run app.py</code></pre>
+        <em>Opens the browser at <code>http://localhost:8501</code> with audio drag-and-drop and cards.</em>
+      </li>
+    </ol>
+
+    <!-- SECTION 6: SAMPLE ARTIFACTS -->
+    <h2>6. Sample Real Outputs</h2>
+    
+    <h3>Extracted Action Items (<code>output_action_items.json</code>)</h3>
+    <pre><code>[
+  {
+    "task_description": "Deploy hotfix for billing token synchronization failure",
+    "responsible_person": "Dave",
+    "deadline": "Thursday by 5:00 PM",
+    "priority": "High",
+    "transcript_excerpt": "I will take ownership of this bug and deploy a hotfix by this Thursday at 5 PM. It is a critical blocker."
+  },
+  {
+    "task_description": "Draft complete migration architecture guide for leadership review",
+    "responsible_person": "Alex",
+    "deadline": "Friday before 2:00 PM",
+    "priority": "Medium",
+    "transcript_excerpt": "I will draft the architecture guide and share it with leadership before Friday at 2 PM."
+  },
+  {
+    "task_description": "Send calendar invite for Product team sync regarding legacy REST endpoints",
+    "responsible_person": "Dave",
+    "deadline": "Tomorrow by 10:00 AM",
+    "priority": "Low",
+    "transcript_excerpt": "I will send out the calendar invite tomorrow by 10 AM."
+  }
+]</code></pre>
+
+    <!-- SECTION 7: INTERVIEW MASTER GUIDE -->
+    <h2>7. Interview Master Preparation: Questions & Answers</h2>
+
+    <div class="callout">
+      <div class="callout-title">Q1: "Why did you build this without LangChain?"</div>
+      <p>
+        <strong>Your Answer:</strong> <em>"LangChain introduces unnecessary abstraction layers, heavy dependencies, and frequent API deprecations. For a production meeting summarizer, direct calls to native clients (Ollama and HTTP requests) give us 100% transparent control over prompt tokens, deterministic temperature settings, and significantly lower latency."</em>
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Q2: "How do you handle audio errors and corrupted recordings?"</div>
+      <p>
+        <strong>Your Answer:</strong> <em>"I implemented defensive input validation in <code>step1_transcription.py</code>. Before passing anything to Whisper, the function <code>validate_audio_file()</code> checks file existence, extension whitelisting, rejects 0-byte empty files, and catches corrupt files under 1 KB. This prevents GPU crashes and avoids wasting expensive computational resources on bad inputs."</em>
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Q3: "How do you guarantee that the LLM outputs valid JSON without crashing your backend?"</div>
+      <p>
+        <strong>Your Answer:</strong> <em>"I used a two-pronged strategy: First, I enabled Ollama's native <code>format='json'</code> mode which forces constrained grammar decoding. Second, in <code>step3_action_items.py</code>, I built a defensive regex cleaner <code>clean_json_response()</code> that strips any markdown code fences before invoking <code>json.loads()</code>, guaranteeing that malformed syntax never breaks downstream pipelines."</em>
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Q4: "How do you stop the AI from hallucinating fake commitments?"</div>
+      <p>
+        <strong>Your Answer:</strong> <em>"Our schema mandates a <code>transcript_excerpt</code> field. For every extracted task, the model must cite the verbatim spoken sentence from the audio. If no direct quote exists in the transcript, the item cannot be generated."</em>
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>
+

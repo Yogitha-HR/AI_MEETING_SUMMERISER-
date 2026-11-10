@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Yogitha HR - Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+    }
+
+    /* TOP ACTION BAR */
+    .top-bar {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .btn-pdf {
+      background: #0f4c81;
+      color: #fff;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(15, 76, 129, 0.25);
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-pdf:hover {
+      background: #0b375d;
+      transform: translateY(-1px);
+    }
+
+    .page-note {
+      font-size: 0.82rem;
+      color: #555;
+    }
+
+    /* A4 RESUME SHEET - STRICT 1-PAGE BUDGET */
+    .resume-container {
+      width: 210mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      background: #ffffff;
+      padding: 12mm 16mm;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    header {
+      border-bottom: 2px solid #0f4c81;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #0f4c81;
+      letter-spacing: -0.3px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 11.5px;
+      color: #374151;
+      margin-top: 6px;
+    }
+
+    .contact-info a {
+      color: #0f4c81;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+
+    /* SECTIONS */
+    section {
+      margin-bottom: 9px;
+    }
+
+    .section-title {
+      font-size: 11.8px;
+      font-weight: 700;
+      color: #0f4c81;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 2px;
+      margin-bottom: 5px;
+    }
+
+    .summary-text {
+      font-size: 11.4px;
+      line-height: 1.45;
+      color: #374151;
+      text-align: justify;
+    }
+
+    /* ITEMS */
+    .item {
+      margin-bottom: 6px;
+    }
+
+    .item:last-child {
+      margin-bottom: 0;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .item-title {
+      font-size: 12.4px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .item-subtitle {
+      font-size: 11.4px;
+      font-weight: 500;
+      color: #4b5563;
+    }
+
+    .item-date {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    ul.bullets {
+      list-style-type: disc;
+      margin-left: 16px;
+      margin-top: 2px;
+    }
+
+    ul.bullets li {
+      font-size: 11.2px;
+      line-height: 1.4;
+      color: #374151;
+      margin-bottom: 1.5px;
+    }
+
+    /* SKILLS */
+    .skills-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .skill-line {
+      font-size: 11.4px;
+      color: #374151;
+      line-height: 1.35;
+    }
+
+    .skill-line strong {
+      color: #111827;
+      font-weight: 600;
+      display: inline-block;
+      min-width: 140px;
+    }
+
+    .footer-line {
+      font-size: 11.3px;
+      color: #374151;
+      line-height: 1.4;
+    }
+
+    .footer-line strong {
+      color: #111827;
+    }
+
+    /* PRINT RULES FOR ATS 1-PAGE EXPORT */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      .top-bar {
+        display: none !important;
+      }
+      .resume-container {
+        width: 100%;
+        max-height: none;
+        padding: 0;
+        box-shadow: none;
+      }
+      @page {
+        size: A4;
+        margin: 10mm 14mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <span class="page-note">💡 Formatted for a strict 1-page ATS download!</span>
+    <button class="btn-pdf" onclick="window.print()">📥 Download as PDF (Print)</button>
+  </div>
+
+  <!-- A4 RESUME -->
+  <div class="resume-container">
+    
+    <!-- HEADER -->
+    <header>
+      <div class="header-top">
+        <h1>YOGITHA H R</h1>
+        <div class="subtitle">Software Engineer • AI/ML Developer</div>
+      </div>
+      <div class="contact-info">
+        <span>📍 Gubbi, Karnataka, India</span>
+        <span>📞 <a href="tel:+917259585974">+91 7259585974</a></span>
+        <span>✉️ <a href="mailto:yogithahr2004@gmail.com">yogithahr2004@gmail.com</a></span>
+        <span>🔗 <a href="https://www.linkedin.com/in/yogitha-h-r-247a54391" target="_blank">LinkedIn</a></span>
+        <span>💻 <a href="https://github.com/Yogitha-HR" target="_blank">GitHub</a></span>
+      </div>
+    </header>
+
+    <!-- REALISTIC HUMAN SUMMARY -->
+    <section>
+      <div class="section-title">Summary</div>
+      <p class="summary-text">
+        Computer Science undergraduate with practical experience in Python, SQL, and applied machine learning. Currently interning as an AI/ML developer with hands-on exposure to model development, data preprocessing, and analytical pipelines. A curious, adaptable problem-solver eager to contribute effectively to software engineering teams.
+      </p>
+    </section>
+
+    <!-- INTERNSHIP EXPERIENCE -->
+    <section>
+      <div class="section-title">Internship Experience</div>
+
+      <!-- GIRAKEE SOFTWARE (CURRENT) -->
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Girakee Software</span>
+          <span class="item-date">Ongoing / Present</span>
+        </div>
+        <div class="item-subtitle">AI/ML Developer Intern</div>
+        <ul class="bullets">
+          <li>Working on exploratory data analysis, dataset preprocessing, and feature engineering using Python and Pandas.</li>
+          <li>Assisting in machine learning model development, evaluation, and practical AI workflow implementations.</li>
+        </ul>
+      </div>
+
+      <!-- IROBO AUTOMATION (COMPLETED) -->
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">iRobo Automation Pvt Ltd, Mysuru</span>
+          <span class="item-date">Feb 2026 – May 2026 (15 Weeks)</span>
+        </div>
+        <div class="item-subtitle">Data Analytics & Python Intern</div>
+        <ul class="bullets">
+          <li>Utilized Python scripts and analytical tools to clean, transform, and evaluate structured business datasets.</li>
+          <li>Created summary reports and visual data representations to identify operational trends and patterns.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TECHNICAL SKILLS -->
+    <section>
+      <div class="section-title">Technical Skills</div>
+      <div class="skills-block">
+        <div class="skill-line">
+          <strong>Languages:</strong> Python, SQL
+        </div>
+        <div class="skill-line">
+          <strong>AI & Machine Learning:</strong> NumPy, Pandas, Data Preprocessing, Supervised Learning, Model Classification, Whisper ASR
+        </div>
+        <div class="skill-line">
+          <strong>Databases & Tools:</strong> MySQL, DBMS, Git, GitHub, VS Code, Streamlit
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section>
+      <div class="section-title">Key Projects</div>
+
+      <!-- PROJECT 1: TODAY'S PROJECT -->
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">AI Meeting Summarizer & Action-Item Extractor</span>
+          <span class="item-date">Python, Whisper ASR, LLM, Streamlit, Git</span>
+        </div>
+        <ul class="bullets">
+          <li>Built a tool that transcribes meeting audio recordings into text using OpenAI Whisper.</li>
+          <li>Structured transcripts into concise summaries (decisions, updates, next steps) and extracted action items (owner, deadline, priority) into machine-readable JSON.</li>
+          <li>Created a clean Streamlit interface with audio playback and JSON report download functionality.</li>
+        </ul>
+      </div>
+
+      <!-- PROJECT 2: ORGAN TRANSPLANTATION -->
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Organ Transplantation Prediction System</span>
+          <span class="item-date">Python, Machine Learning, NumPy, Pandas</span>
+        </div>
+        <ul class="bullets">
+          <li>Developed a predictive classification model to evaluate organ transplantation compatibility using clinical metrics.</li>
+          <li>Performed data preprocessing, handled missing records, and evaluated multiple algorithms to improve reliability.</li>
+        </ul>
+      </div>
+
+      <!-- PROJECT 3: TOURS & TRAVELS -->
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Tours and Travels Management System</span>
+          <span class="item-date">SQL, Relational DBMS</span>
+        </div>
+        <ul class="bullets">
+          <li>Designed a normalized relational database schema to manage customer records, travel packages, and bookings.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section>
+      <div class="section-title">Education</div>
+      
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Maharaja Institute of Technology, Mysuru</span>
+          <span class="item-date">2022 – 2026</span>
+        </div>
+        <div class="item-subtitle">Bachelor of Engineering in Computer Science & Engineering (VTU)</div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">JSS PU College, Sakleshpur</span>
+          <span class="item-date">2020 – 2022</span>
+        </div>
+        <div class="item-subtitle">Pre-University Course (PCMB)</div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS & STRENGTHS -->
+    <section>
+      <div class="section-title">Certifications & Languages</div>
+      <div class="footer-line">
+        • <strong>IBM SkillsBuild:</strong> Artificial Intelligence Fundamentals Certification (Core AI concepts & applications).
+      </div>
+      <div class="footer-line" style="margin-top: 2px;">
+        • <strong>Languages:</strong> English (Professional Working), Kannada (Native).
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

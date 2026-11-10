@@ -1,0 +1,16 @@
+# Core Web Application Framework
+streamlit>=1.30.0
+
+# Speech Recognition (Audio to Text)
+openai-whisper>=20231117
+
+# Ollama Client for local LLM (NO LangChain used)
+ollama>=0.3.0
+
+# Hugging Face direct requests / hub (Alternative LLM option)
+requests>=2.31.0
+huggingface-hub>=0.20.0
+
+# Audio handling utilities
+pydub>=0.25.1
+
