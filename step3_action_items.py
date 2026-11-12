@@ -1,17 +1,5 @@
 """
-STEP 3: ACTION-ITEM EXTRACTION MODULE (STRUCTURED JSON)
-======================================================
-Purpose:
-  Scans the meeting transcript for commitments, assigned tasks, and follow-ups.
-  Enforces a strict JSON output schema containing:
-    1. Task description
-    2. Responsible person (if explicitly stated, otherwise null)
-    3. Deadline (if explicitly stated, otherwise null)
-    4. Priority ('High', 'Medium', 'Low' if supported by discussion)
-    5. Supporting transcript excerpt (exact verbatim quote)
-
-Why Structured JSON?
-  Outputs can be directly loaded into Jira, Asana, Trello, Google Tasks, or an internal SQL database.
+Structured action-item extraction module.
 """
 
 import json

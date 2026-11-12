@@ -1,15 +1,5 @@
 """
-STEP 1: AUDIO UPLOAD & TRANSCRIPTION MODULE
-===========================================
-Purpose:
-  Accepts an audio file path, validates it against corruption, empty size, 
-  and unsupported file extensions, then uses OpenAI's Whisper model to convert 
-  spoken audio into a clean text transcript.
-
-Why Whisper?
-  Whisper is a state-of-the-art Automatic Speech Recognition (ASR) model trained 
-  on 680,000+ hours of multilingual data. It accurately detects punctuation, 
-  technical vocabulary, and different speaker accents.
+Audio ingestion and transcription module using OpenAI Whisper.
 """
 
 import os

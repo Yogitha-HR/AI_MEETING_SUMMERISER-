@@ -1,14 +1,5 @@
 """
-=============================================================
-PRACTICAL END-TO-END DEMO: AI MEETING SUMMARIZER
-=============================================================
-This script executes the entire 3-step pipeline right here in VS Code:
-1. Simulates/transcribes the meeting audio.
-2. Generates the structured 6-section Executive Summary.
-3. Extracts action items into structured JSON.
-4. Saves output files:
-   - 'output_summary.md'
-   - 'output_action_items.json'
+CLI demonstration runner for meeting processing pipeline.
 """
 
 import os

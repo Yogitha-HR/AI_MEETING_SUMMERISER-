@@ -1,21 +1,5 @@
 """
-STEP 2: MEETING SUMMARY GENERATION MODULE
-=========================================
-Purpose:
-  Consumes the raw meeting transcript and sends a carefully crafted prompt 
-  to an LLM (Ollama or Hugging Face) without any wrapper libraries like LangChain.
-  Generates an executive-level summary containing all 6 required sections:
-    1. Meeting Purpose
-    2. Main Discussion Points
-    3. Important Updates
-    4. Key Decisions
-    5. Unresolved Questions
-    6. Next Steps
-
-Why direct Ollama / Hugging Face (No LangChain)?
-  - Eliminates unnecessary abstractions and dependency bloat.
-  - Gives 100% transparent control over the prompt, tokens, and temperature.
-  - Native, fast, and easier to debug and explain in corporate code reviews.
+Executive meeting summarization engine.
 """
 
 import json

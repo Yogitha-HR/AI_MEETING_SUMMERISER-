@@ -1,11 +1,5 @@
 """
-TEST SUITE & PIPELINE VERIFIER
-==============================
-Run this script to verify your code logic without needing an audio recording.
-It runs tests on:
-1. Audio validation safeguards (empty file, unsupported format).
-2. Step 2 summary generation logic.
-3. Step 3 JSON action item extraction schema compliance.
+Unit tests for pipeline validation and schema integrity.
 """
 
 import os

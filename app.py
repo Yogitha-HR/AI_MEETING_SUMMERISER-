@@ -1,11 +1,5 @@
 """
-===================================================================
-AI MEETING SUMMARIZER & ACTION-ITEM EXTRACTOR - STREAMLIT APP
-===================================================================
-Clean, single-flow interface:
-1. Upload Audio
-2. Click "Process Meeting"
-3. View & Download Transcript, Summary, and Structured Action Items
+Streamlit web application for meeting summarization and task extraction.
 """
 
 import streamlit as st
