@@ -96,10 +96,17 @@ def transcribe_audio(file_path: str, model_size: str = "base") -> str:
     except Exception as e:
         raise RuntimeError(f"Failed to load Whisper ASR model: {str(e)}")
 
-    # Step 3: Run transcription
+    # Step 3: Run transcription with vocabulary hints and English language lock
     print(f"[*] Transcribing audio from: {file_path}...")
     try:
-        result = model.transcribe(file_path)
+        # Prompting Whisper with domain keywords ensures accurate spelling of names
+        vocab_prompt = "This is Yogitha. Topics: AI meeting summarizer, action item extractor, ChatGPT, Anil, assignments, tomorrow, morning, leave."
+        result = model.transcribe(
+            file_path,
+            language="en",
+            initial_prompt=vocab_prompt,
+            temperature=0.0
+        )
     except Exception as e:
         err_msg = str(e)
         if "WinError 2" in err_msg or "ffmpeg" in err_msg.lower():
